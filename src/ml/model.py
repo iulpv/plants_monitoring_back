@@ -69,7 +69,7 @@ class Model:
         resnet_model = models.resnet50(pretrained=True)
 
         num_features = resnet_model.fc.in_features
-        resnet_model.fc = nn.Sequential(nn.Dropout(0.5), nn.Linear(num_features, len(self.classes)))
+        resnet_model.fc = nn.Sequential(nn.Linear(num_features, len(self.classes)))
 
         if print_model:
             print(resnet_model)
