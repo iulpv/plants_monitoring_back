@@ -25,12 +25,8 @@ class PredictService:
             return JSONResponse(content={'status': 'File is not an image'}, status_code=400)
 
         plant_type, plant_disease, probability = self.model.eval_model(content)
-        img = Image.open(BytesIO(content))
-        img_byte_arr = BytesIO()
-        img.save(img_byte_arr, format='JPEG')
-        img_byte_arr = img_byte_arr.getvalue()
 
-        return Prediction(plant_type=plant_type, plant_disease=plant_disease, probability=probability, photo=base64.b64encode(img_byte_arr).decode('utf-8'))
+        return Prediction(plant_type=plant_type, plant_disease=plant_disease, probability=probability, photo=base64.b64encode(content))
 
     async def handle_camera_photo(self, file: UploadFile):
         prediction = await self.predict_photo(file)

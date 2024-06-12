@@ -38,7 +38,7 @@ class Model:
         ])
         self.device = self._get_device()
         self.model = self._get_model()
-        self.model.load_state_dict(torch.load('/Users/yuliakarpova/Documents/диплом/PlantsProject/src/ml/resnet50_acc08', map_location=self.device))
+        self.model.load_state_dict(torch.load('', map_location=self.device))
 
     def eval_model(self, content: bytes):
         transformed_image = self._preprocess_image(content)
@@ -69,7 +69,7 @@ class Model:
         resnet_model = models.resnet50(pretrained=True)
 
         num_features = resnet_model.fc.in_features
-        resnet_model.fc = nn.Sequential(nn.Linear(num_features, len(self.classes)))
+        resnet_model.fc = nn.Sequential(nn.Dropout(0.5), nn.Linear(num_features, len(self.classes)))
 
         if print_model:
             print(resnet_model)
